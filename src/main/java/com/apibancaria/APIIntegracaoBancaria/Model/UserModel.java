@@ -21,7 +21,7 @@ public class UserModel implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    Long id;
 
     String nome;
 
