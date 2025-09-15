@@ -11,9 +11,9 @@ public class UserMapper {
 
         UserModel userModel = new UserModel();
         userModel.setId(userDTO.getId());
-        userModel.setNome(userDTO.getNome());
+        userModel.setName(userDTO.getName());
         userModel.setEmail(userDTO.getEmail());
-        userModel.setSenha(userDTO.getSenha());
+        userModel.setPassword(userDTO.getPassword());
         userModel.setRole(userDTO.getRole());
         userModel.setCreatedAt(userDTO.getCreatedAt());
         userModel.setUpdatedAt(userDTO.getUpdatedAt());
@@ -25,9 +25,9 @@ public class UserMapper {
 
         UserDTO userDTO = new UserDTO();
         userDTO.setId(userModel.getId());
-        userDTO.setNome(userModel.getNome());
+        userDTO.setName(userModel.getName());
         userDTO.setEmail(userModel.getEmail());
-        userDTO.setSenha(userModel.getSenha());
+        userDTO.setPassword(userModel.getPassword());
         userDTO.setRole(userModel.getRole());
         userDTO.setCreatedAt(userModel.getCreatedAt());
         userDTO.setUpdatedAt(userModel.getUpdatedAt());

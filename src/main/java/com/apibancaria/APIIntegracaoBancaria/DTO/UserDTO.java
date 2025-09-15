@@ -12,9 +12,9 @@ import java.time.LocalDate;
 @Data
 public class UserDTO {
     Long id;
-    String nome;
+    String name;
     String email;
-    String senha;
+    String password;
     Role role;
     LocalDate createdAt;
     LocalDate updatedAt;

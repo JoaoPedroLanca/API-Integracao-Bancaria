@@ -23,11 +23,11 @@ public class UserModel implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    String nome;
+    String name;
 
     String email;
 
-    String senha;
+    String password;
 
     @Enumerated(EnumType.STRING)
     Role role;
@@ -43,7 +43,7 @@ public class UserModel implements UserDetails {
 
     @Override
     public String getPassword() {
-        return getSenha();
+        return getPassword();
     }
 
     @Override
