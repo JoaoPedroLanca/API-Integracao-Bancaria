@@ -1,7 +1,7 @@
-package com.apibancaria.APIIntegracaoBancaria.Mapper;
+package com.apibancaria.APIIntegracaoBancaria.Domain.User.Mapper;
 
 import com.apibancaria.APIIntegracaoBancaria.DTO.UserDTO;
-import com.apibancaria.APIIntegracaoBancaria.Model.UserModel;
+import com.apibancaria.APIIntegracaoBancaria.Domain.User.Model.UserModel;
 import org.springframework.stereotype.Component;
 
 @Component

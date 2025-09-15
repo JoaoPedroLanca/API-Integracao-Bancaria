@@ -1,4 +1,4 @@
-package com.apibancaria.APIIntegracaoBancaria.Enums;
+package com.apibancaria.APIIntegracaoBancaria.Domain.User.Enums;
 
 import org.springframework.security.core.GrantedAuthority;
 
