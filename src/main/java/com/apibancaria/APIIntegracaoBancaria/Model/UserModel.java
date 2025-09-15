@@ -23,17 +23,22 @@ public class UserModel implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    @Column(name = "name")
     String name;
 
+    @Column(name = "email", unique = true)
     String email;
 
+    @Column(name = "password")
     String password;
 
     @Enumerated(EnumType.STRING)
     Role role;
 
+    @Column(name = "created")
     LocalDate createdAt;
 
+    @Column(name = "updated")
     LocalDate updatedAt;
 
     @Override
