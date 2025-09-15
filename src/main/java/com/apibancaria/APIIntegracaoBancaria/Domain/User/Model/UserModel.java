@@ -1,6 +1,6 @@
-package com.apibancaria.APIIntegracaoBancaria.Model;
+package com.apibancaria.APIIntegracaoBancaria.Domain.User.Model;
 
-import com.apibancaria.APIIntegracaoBancaria.Enums.Role;
+import com.apibancaria.APIIntegracaoBancaria.Domain.User.Enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -21,34 +22,34 @@ public class UserModel implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column(name = "name")
-    String name;
+    private String name;
 
     @Column(name = "email", unique = true)
-    String email;
+    private String email;
 
     @Column(name = "password")
-    String password;
+    private String password;
 
     @Enumerated(EnumType.STRING)
-    Role role;
+    private Role role;
 
     @Column(name = "created")
-    LocalDate createdAt;
+    private LocalDateTime createdAt;
 
     @Column(name = "updated")
-    LocalDate updatedAt;
+    private LocalDateTime updatedAt;
 
     @Override
     public String getUsername(){
-        return getEmail();
+        return email;
     }
 
     @Override
     public String getPassword() {
-        return getPassword();
+        return password;
     }
 
     @Override
