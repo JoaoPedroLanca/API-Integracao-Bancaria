@@ -1,37 +1,33 @@
 package com.apibancaria.APIIntegracaoBancaria.Domain.User.Mapper;
 
-import com.apibancaria.APIIntegracaoBancaria.DTO.UserDTO;
+import com.apibancaria.APIIntegracaoBancaria.Domain.User.DTO.UserRequestDTO;
+import com.apibancaria.APIIntegracaoBancaria.Domain.User.DTO.UserResponseDTO;
 import com.apibancaria.APIIntegracaoBancaria.Domain.User.Model.UserModel;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserMapper {
 
-    public UserModel map(UserDTO userDTO){
+    public UserResponseDTO toResponse(UserModel userModel){
 
-        UserModel userModel = new UserModel();
-        userModel.setId(userDTO.getId());
-        userModel.setName(userDTO.getName());
-        userModel.setEmail(userDTO.getEmail());
-        userModel.setPassword(userDTO.getPassword());
-        userModel.setRole(userDTO.getRole());
-        userModel.setCreatedAt(userDTO.getCreatedAt());
-        userModel.setUpdatedAt(userDTO.getUpdatedAt());
+        UserResponseDTO userResponseDTO = new UserResponseDTO();
+        userResponseDTO.setId(userModel.getId());
+        userResponseDTO.setName(userModel.getName());
+        userResponseDTO.setEmail(userModel.getEmail());
+        userResponseDTO.setRole(userModel.getRole());
+        userResponseDTO.setCreatedAt(userModel.getCreatedAt());
 
-        return userModel;
+        return userResponseDTO;
     }
 
-    public UserDTO map(UserModel userModel){
+    public UserModel toModel(UserRequestDTO userRequestDTO){
 
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(userModel.getId());
-        userDTO.setName(userModel.getName());
-        userDTO.setEmail(userModel.getEmail());
-        userDTO.setPassword(userModel.getPassword());
-        userDTO.setRole(userModel.getRole());
-        userDTO.setCreatedAt(userModel.getCreatedAt());
-        userDTO.setUpdatedAt(userModel.getUpdatedAt());
+        UserModel userModel = new UserModel();
+        userModel.setName(userRequestDTO.getName());
+        userModel.setEmail(userRequestDTO.getEmail());
+        userModel.setPassword(userRequestDTO.getPassword());
+        userModel.setRole(userRequestDTO.getRole());
 
-        return userDTO;
+        return userModel;
     }
 }
