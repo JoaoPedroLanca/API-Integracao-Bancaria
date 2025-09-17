@@ -1,5 +1,6 @@
 package com.apibancaria.APIIntegracaoBancaria.Domain.User.Service;
 
+import com.apibancaria.APIIntegracaoBancaria.Config.SecurityConfig;
 import com.apibancaria.APIIntegracaoBancaria.Domain.User.DTO.UserRequestDTO;
 import com.apibancaria.APIIntegracaoBancaria.Domain.User.DTO.UserResponseDTO;
 import com.apibancaria.APIIntegracaoBancaria.Domain.User.Mapper.UserMapper;
@@ -8,6 +9,7 @@ import com.apibancaria.APIIntegracaoBancaria.Domain.User.Repository.UserReposito
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -15,16 +17,22 @@ import java.util.Optional;
 @Service
 public class UserService implements UserDetailsService {
 
-    private UserRepository userRepository;
-    private UserMapper userMapper;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserMapper userMapper, UserRepository userRepository) {
-        this.userMapper = userMapper;
+    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository, UserMapper userMapper) {
+        this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
     public UserResponseDTO createUser(UserRequestDTO requestDTO) {
         UserModel userinfo = userMapper.toModel(requestDTO);
+
+        String encryptedPassword = passwordEncoder.encode(requestDTO.getPassword());
+        userinfo.setPassword(encryptedPassword);
+
         userinfo = userRepository.save(userinfo);
         return userMapper.toResponse(userinfo);
     }
@@ -33,9 +41,11 @@ public class UserService implements UserDetailsService {
         UserModel userExist = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado em sistema"));
 
+        String encryptedPassword = passwordEncoder.encode(requestDTO.getPassword());
+
         userExist.setName(requestDTO.getName());
         userExist.setEmail(requestDTO.getEmail());
-        userExist.setPassword(requestDTO.getPassword());
+        userExist.setPassword(encryptedPassword);
 
         UserModel updatedUser = userRepository.save(userExist);
 
