@@ -1,6 +1,7 @@
 package com.apibancaria.APIIntegracaoBancaria.Domain.User.Service;
 
-import com.apibancaria.APIIntegracaoBancaria.Domain.User.DTO.UserDTO;
+import com.apibancaria.APIIntegracaoBancaria.Domain.User.DTO.UserRequestDTO;
+import com.apibancaria.APIIntegracaoBancaria.Domain.User.DTO.UserResponseDTO;
 import com.apibancaria.APIIntegracaoBancaria.Domain.User.Mapper.UserMapper;
 import com.apibancaria.APIIntegracaoBancaria.Domain.User.Model.UserModel;
 import com.apibancaria.APIIntegracaoBancaria.Domain.User.Repository.UserRepository;
@@ -22,29 +23,35 @@ public class UserService implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
-    public UserDTO createUser(UserDTO userDTO){
-        UserModel userInfo = userMapper.map(userDTO);
-        userInfo = userRepository.save(userInfo);
-        return userMapper.map(userInfo);
+    public UserResponseDTO createUser(UserRequestDTO requestDTO) {
+        UserModel userinfo = userMapper.toModel(requestDTO);
+        userinfo = userRepository.save(userinfo);
+        return userMapper.toResponse(userinfo);
     }
 
-    public UserDTO updateUser(Long id, UserDTO userDTO){
-        Optional<UserModel> userExist = userRepository.findById(id);
-        if (userExist.isPresent()) {
-            UserModel newUser = userMapper.map(userDTO);
-            newUser.setId(id);
-            UserModel updateUser = userRepository.save(newUser);
-            return userMapper.map(updateUser);
-        }
-        return null;
+    public UserResponseDTO updateUser(Long id, UserRequestDTO requestDTO){
+        UserModel userExist = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado em sistema"));
+
+        userExist.setName(requestDTO.getName());
+        userExist.setEmail(requestDTO.getEmail());
+        userExist.setPassword(requestDTO.getPassword());
+
+        UserModel updatedUser = userRepository.save(userExist);
+
+        return userMapper.toResponse(updatedUser);
     }
 
-    public UserDTO findUserById(Long id){
+    public UserResponseDTO findUserById(Long id){
         Optional<UserModel> userId = userRepository.findById(id);
-        return userId.map(userMapper::map).orElse(null);
+        return userId.map(userMapper::toResponse)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado em sistema"));
     }
 
-    public UserDTO deleteUserById(Long id){
+    public void deleteUserById(Long id){
+        if (!userRepository.existsById(id)) {
+            throw new RuntimeException("Usuário não encontrado para exclusão");
+        }
         userRepository.deleteById(id);
     }
 

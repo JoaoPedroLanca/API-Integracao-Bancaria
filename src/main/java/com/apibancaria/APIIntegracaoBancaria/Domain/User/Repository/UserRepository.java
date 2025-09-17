@@ -1,6 +1,6 @@
-package com.apibancaria.APIIntegracaoBancaria.Repository;
+package com.apibancaria.APIIntegracaoBancaria.Domain.User.Repository;
 
-import com.apibancaria.APIIntegracaoBancaria.Model.UserModel;
+import com.apibancaria.APIIntegracaoBancaria.Domain.User.Model.UserModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
