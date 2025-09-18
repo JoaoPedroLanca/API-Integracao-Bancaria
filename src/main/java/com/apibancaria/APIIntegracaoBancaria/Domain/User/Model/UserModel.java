@@ -30,6 +30,14 @@ public class UserModel implements UserDetails {
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
+    @PrePersist
+    @PreUpdate
+    private void lowerCaseEmail() {
+        if (email != null) {
+            email = email.toLowerCase();
+        }
+    }
+
     @Column(name = "password", nullable = false)
     private String password;
 
