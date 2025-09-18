@@ -6,6 +6,7 @@ import com.apibancaria.APIIntegracaoBancaria.Domain.User.DTO.UserResponseDTO;
 import com.apibancaria.APIIntegracaoBancaria.Domain.User.Mapper.UserMapper;
 import com.apibancaria.APIIntegracaoBancaria.Domain.User.Model.UserModel;
 import com.apibancaria.APIIntegracaoBancaria.Domain.User.Repository.UserRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,6 +30,7 @@ public class UserService implements UserDetailsService {
         this.userMapper = userMapper;
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public UserResponseDTO createUser(UserRequestDTO requestDTO) {
         UserModel userinfo = userMapper.toModel(requestDTO);
 
@@ -39,6 +41,7 @@ public class UserService implements UserDetailsService {
         return userMapper.toResponse(userinfo);
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public UserResponseDTO updateUser(Long id, UserRequestDTO requestDTO){
         UserModel userExist = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado em sistema"));
@@ -54,12 +57,14 @@ public class UserService implements UserDetailsService {
         return userMapper.toResponse(updatedUser);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public UserResponseDTO findUserById(Long id){
         Optional<UserModel> userId = userRepository.findById(id);
         return userId.map(userMapper::toResponse)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado em sistema"));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public List<UserResponseDTO> findAllUsers() {
         List<UserModel> allUsers = userRepository.findAll();
         return allUsers.stream()
@@ -67,6 +72,7 @@ public class UserService implements UserDetailsService {
                 .collect(Collectors.toList());
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteUserById(Long id){
         if (!userRepository.existsById(id)) {
             throw new RuntimeException("Usuário não encontrado para exclusão");
