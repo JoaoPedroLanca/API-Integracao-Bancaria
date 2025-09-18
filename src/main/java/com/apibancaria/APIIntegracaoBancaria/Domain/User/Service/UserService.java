@@ -12,7 +12,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -56,6 +58,13 @@ public class UserService implements UserDetailsService {
         Optional<UserModel> userId = userRepository.findById(id);
         return userId.map(userMapper::toResponse)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado em sistema"));
+    }
+
+    public List<UserResponseDTO> findAllUsers() {
+        List<UserModel> allUsers = userRepository.findAll();
+        return allUsers.stream()
+                .map(userMapper::toResponse)
+                .collect(Collectors.toList());
     }
 
     public void deleteUserById(Long id){
