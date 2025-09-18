@@ -43,8 +43,7 @@ public class UserService implements UserDetailsService {
 
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public UserResponseDTO updateUser(Long id, UserRequestDTO requestDTO){
-        UserModel userExist = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado em sistema"));
+        UserModel userExist = userRepository.findById(id).orElse(null);
 
         String encryptedPassword = passwordEncoder.encode(requestDTO.getPassword());
 
@@ -60,8 +59,7 @@ public class UserService implements UserDetailsService {
     @PreAuthorize("hasRole('ADMIN')")
     public UserResponseDTO findUserById(Long id){
         Optional<UserModel> userId = userRepository.findById(id);
-        return userId.map(userMapper::toResponse)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado em sistema"));
+        return userId.map(userMapper::toResponse).orElse(null);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -74,9 +72,6 @@ public class UserService implements UserDetailsService {
 
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteUserById(Long id){
-        if (!userRepository.existsById(id)) {
-            throw new RuntimeException("Usuário não encontrado para exclusão");
-        }
         userRepository.deleteById(id);
     }
 
