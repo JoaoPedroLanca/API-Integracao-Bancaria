@@ -1,6 +1,5 @@
 package com.apibancaria.APIIntegracaoBancaria.Domain.User.Service;
 
-import com.apibancaria.APIIntegracaoBancaria.Config.SecurityConfig;
 import com.apibancaria.APIIntegracaoBancaria.Domain.User.DTO.UserRequestDTO;
 import com.apibancaria.APIIntegracaoBancaria.Domain.User.DTO.UserResponseDTO;
 import com.apibancaria.APIIntegracaoBancaria.Domain.User.Mapper.UserMapper;
